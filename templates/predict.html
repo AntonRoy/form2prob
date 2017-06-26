@@ -1,0 +1,51 @@
+{%extends "layout.html"%}
+{%block body%}
+<nav>
+    <div class="nav-wrapper teal darken-2">
+        <a href="#" class="brand-logo center"> &nbsp; Form2Prob</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+        </ul>
+    </div>
+</nav>
+<br>
+<div class="container" align = center>
+    <div class="row">
+        <div class="card">
+            <div class="card-content">
+                <!--<h2>{{ name }}</h2>-->
+                <!--<h3>Cчет:</h3>-->
+                <!--<p class="text-primary" style="font-size: 530%; ">{{ score }}</p>-->
+                <!--<h4 style="font-size: 250%; ">из 100</h4>-->
+                <!---->
+                <table>
+                    <thead>
+                      <tr>
+                          <th>Имя</th>
+                          <th>Возраст</th>
+                          <th>Языки</th>
+                          <th>Проекты</th>
+                          <th>Конкурсы/Олимпиады</th>
+                          <th>Вероятность</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for i in data %}
+                      <tr>
+                        <td>{{ i[0] }}</td>
+                        <td>{{ i[1] }}</td>
+                          <td>{{ i[2] }}</td>
+                          <td>{{ i[3] }}</td>
+                          <td>{{ i[4] }}</td>
+                          <td>{{ i[5] }}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a class="btn btn-primary btn-raised" href="{{url_for('get_data')}}">Посмотреть еще учеников</a>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

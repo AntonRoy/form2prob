@@ -1,0 +1,25 @@
+{% extends "layout1.html" %}
+{% block body %}
+<nav>
+    <div class="nav-wrapper teal darken-2">
+        <a href="#" class="brand-logo center"> &nbsp; Form2Prob</a>
+         <ul id="nav-mobile" class="right hide-on-med-and-down">
+             <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+         </ul>
+    </div>
+</nav>
+<br>
+<div class="container" align = "center">
+    <div class="row">
+        <div class="card col s8 offset-s2 ">
+            <div class="card-content">
+                <h3>{{name}}, cоветуем вам пойти на направление:</h3>
+                <h2> <{{ score }}></h2>
+                <br>
+                <img src="{{ path }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{%extends "layout.html"%}
+{%block body %}
+<nav>
+    <div class="nav-wrapper teal darken-2">
+        <a href="#" class="brand-logo center"> &nbsp; Form2Prob</a>
+         <ul id="nav-mobile" class="right hide-on-med-and-down">
+             <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+         </ul>
+    </div>
+</nav>
+<br>
+<div class="container" align = "center">
+    <div class="row">
+        <div class="card col s8 offset-s2 ">
+            <div class="card-content" id="main">
+                <h3>Передайте данные об ученике</h3>
+                <hr>
+                <br>
+                <h5 class="caption"> Загрузите анкету ученика в формате .csv</h5>
+                <br>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Таблица</span>
+                            <input type="file" name="table">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+
+                    <input class="btn btn-raised btn-primary" type = 'submit' value="Отправить"><br>
+                </form>
+                <h4 style="color: red;">{{ error }}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
