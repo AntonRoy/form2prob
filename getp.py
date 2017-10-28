@@ -1,8 +1,14 @@
 import pandas as pd
 import numpy as np
 import string
-from tqdm import tqdm
-import xgboost
+import gensim
+import pymorphy2
+import pickle
+
+w2v = gensim.models.KeyedVectors.load_word2vec_format('/home/anton/F2P/ruscorpora.model.bin', binary=True)
+with open("/home/anton/F2P/logreg.pcl", 'rb') as f:
+    lg = pickle.load(f)
+morph = pymorphy2.MorphAnalyzer()
 
 
 def one_hot(arr):
@@ -34,7 +40,10 @@ def lang(arr):
         langs.append(lang)
     return langs
 
-def avg_feature_vector(words, model, num_features):
+
+def avg_feature_vector(words, num_features):
+    global w2v
+    model = w2v
     featureVec = np.zeros((num_features,), dtype="float32")
     nwords = 0
 
@@ -50,7 +59,8 @@ def avg_feature_vector(words, model, num_features):
     return featureVec
 
 
-def normalize_form(txt, morph):
+def normalize_form(txt):
+    global morph
     p = [morph.parse(x)[0].normal_form for x in txt]
     return p
 
@@ -63,19 +73,20 @@ def make_dict(x):
     return dict_rus_split
 
 
-def words2vecs(arr, w2v, morth):
+def words2vecs(arr):
     arr = list(map(lambda x: x.split(), arr))
-    arr = [normalize_form(make_dict(new), morth) for new in tqdm(arr)]
-    arr = [avg_feature_vector(sent, w2v, 300) for sent in tqdm(list(arr))]
+    arr = [normalize_form(make_dict(new)) for new in arr]
+    arr = [avg_feature_vector(sent, 300) for sent in list(arr)]
     return arr
 
 
-def predict_prob(lg, w2v, morth, age, langs, projects, compets):
+def predict_prob(age, langs, projects, compets):
+    global lg
     all_ = pd.DataFrame()
     age = [age]
     langs = one_hot(lang([langs]))
-    projects = words2vecs([projects], w2v, morth)
-    compets = words2vecs([compets], w2v, morth)
+    projects = words2vecs([projects])
+    compets = words2vecs([compets])
     all_['age'] = list(age)
     projects = list(projects[0])
     compet = list(compets[0])
